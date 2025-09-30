@@ -18,11 +18,28 @@ exports.getTasks = async (req, res) => {
 // Crear tarea
 exports.createTask = async (req, res) => {
   try {
-    console.log("🔍 Petición POST /tasks recibida con body:", req.body);
+    console.log("🔍 Petición POST /tasks recibida");
 
-    const task = new Task(req.body);
+    const { title, description, location } = req.body;
+
+    // Foto (subida con multer)
+    const photo = req.file ? req.file.path : null;
+
+    // Parsear ubicación si viene como string JSON
+    const loc = location ? JSON.parse(location) : null;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: "El título es obligatorio" });
+    }
+
+    const task = new Task({
+      title,
+      description,
+      photo,
+      location: loc
+    });
+
     const savedTask = await task.save();
-
     console.log("✅ Tarea guardada correctamente:", savedTask);
     res.status(201).json(savedTask);
   } catch (err) {
@@ -30,6 +47,7 @@ exports.createTask = async (req, res) => {
     res.status(500).json({ error: "Error al crear tarea" });
   }
 };
+
 
 // Actualizar tarea
 exports.updateTask = async (req, res) => {

@@ -1,0 +1,167 @@
+# To-Do App Backend
+
+Este es el backend en Node.js y MongoDB para la To-Do App personal.  
+Permite crear, leer, actualizar y eliminar tareas y está listo para integrarse con una PWA frontend.  
+El código está modular, bien estructurado y documentado para facilitar su uso y mantenimiento.
+
+---
+
+## Tecnologías utilizadas
+- Node.js (v16+)
+- Express.js como framework web
+- MongoDB para almacenamiento de datos
+- Mongoose para modelado de datos
+- CORS para permitir conexiones desde el frontend
+- dotenv para manejar variables de entorno
+
+---
+
+## Estructura del proyecto
+
+back/
+    src/
+        config/
+            mongo.js          # Conexión a MongoDB
+        controllers/
+            task_controller.js # Lógica para CRUD de tareas
+        models/
+            Task.js            # Modelo de datos de tarea
+        routes/
+            task_routes.js     # Rutas de API para tareas
+    .env                       # Variables de entorno (PORT, MONGO_URI)
+    server.js                  # Entrada principal del servidor
+    package.json
+    package-lock.json
+
+---
+
+## Instalación
+
+1. Clonar el repositorio y entrar a la carpeta back.  
+2. Instalar las dependencias necesarias.  
+3. Configurar las variables de entorno en el archivo `.env`:
+
+    - PORT=3001  
+    - MONGO_URI=mongodb://localhost:27017/todo_app (esto es un ejemplo, cambiar por una real)
+
+4. Arrancar el servidor.  
+5. Verificar que la consola muestre:
+
+    Conexión a MongoDB exitosa.  
+    Servidor corriendo en http://localhost:3001
+
+---
+
+## Endpoints disponibles
+
+- GET /tasks       : Obtener todas las tareas
+- POST /tasks      : Crear una nueva tarea
+- PUT /tasks/:id   : Actualizar una tarea por ID
+- DELETE /tasks/:id: Eliminar una tarea por ID
+
+---
+
+## Ejemplos de uso
+
+### Crear tarea (POST)
+- URL: http://localhost:3001/tasks  
+- Body (JSON):
+
+    {
+        "title": "Comprar leche",
+        "description": "Ir al supermercado"
+    }
+
+- Respuesta esperada:
+
+    {
+        "_id": "6500f4f2f1e2a3b456789012",
+        "title": "Comprar leche",
+        "description": "Ir al supermercado",
+        "completed": false,
+        "createdAt": "2025-09-30T15:00:00.000Z",
+        "updatedAt": "2025-09-30T15:00:00.000Z",
+        "__v": 0
+    }
+
+### Obtener tareas (GET)
+- URL: http://localhost:3001/tasks  
+- Respuesta:
+
+    [
+        {
+            "_id": "6500f4f2f1e2a3b456789012",
+            "title": "Comprar leche",
+            "description": "Ir al supermercado",
+            "completed": false,
+            "createdAt": "2025-09-30T15:00:00.000Z",
+            "updatedAt": "2025-09-30T15:00:00.000Z",
+            "__v": 0
+        }
+    ]
+
+### Actualizar tarea (PUT)
+- URL: http://localhost:3001/tasks/6500f4f2f1e2a3b456789012  
+- Body (JSON):
+
+    {
+        "completed": true
+    }
+
+- Respuesta:
+
+    {
+        "_id": "6500f4f2f1e2a3b456789012",
+        "title": "Comprar leche",
+        "description": "Ir al supermercado",
+        "completed": true,
+        "createdAt": "2025-09-30T15:00:00.000Z",
+        "updatedAt": "2025-09-30T15:10:00.000Z",
+        "__v": 0
+    }
+
+### Eliminar tarea (DELETE)
+- URL: http://localhost:3001/tasks/6500f4f2f1e2a3b456789012  
+- Respuesta:
+
+    {
+        "message": "Tarea eliminada"
+    }
+
+---
+
+## Logs de depuración
+
+El backend incluye logs detallados para cada operación:
+
+- GET /tasks → muestra cuántas tareas existen  
+- POST /tasks → muestra el body recibido y la tarea guardada  
+- PUT /tasks/:id → muestra la tarea antes y después de actualizar  
+- DELETE /tasks/:id → muestra la tarea eliminada  
+- Errores y warnings se muestran en consola para facilitar depuración
+
+---
+
+## Uso
+
+- Integrar con el frontend PWA para mostrar tareas, crear nuevas, actualizarlas y eliminarlas.  
+- Preparado para manejar offline (guardado local) y sincronización con MongoDB.  
+- Se pueden añadir fotos y coordenadas de ubicación en los campos photoUrl y location.
+
+---
+
+## Dependencias principales
+
+- express: Framework web para Node.js  
+- mongoose: ORM para MongoDB  
+- cors: Permite solicitudes desde el frontend  
+- dotenv: Manejo de variables de entorno  
+
+---
+
+## Notas finales
+
+- Proyecto listo para pruebas con Postman o Insomnia.  
+- Código ordenado, modular y comentado para facilitar mantenimiento.  
+- Compatible con futuras integraciones de sensores (cámara, GPS) en el frontend PWA.  
+- Documentación completa con instalación, uso, dependencias y ejemplos de request/response.
